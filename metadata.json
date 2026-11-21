@@ -1,0 +1,8 @@
+{
+  "name": "AZ SAT CONNECT - IPTV & Smart TV Portal",
+  "description": "Professional Smart TV & Android Box Launcher with Xtreme IPTV Player, Live Tunisian Radios, Live Match Center, Quran, and Complete Admin Control Panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="screen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="512" height="512" rx="100" fill="url(#bg)" stroke="url(#gold)" stroke-width="8" />
+  
+  <!-- TV Body Frame -->
+  <rect x="76" y="100" width="360" height="240" rx="24" fill="#18181b" stroke="url(#gold)" stroke-width="6" />
+  
+  <!-- TV Screen Inner Glow -->
+  <rect x="96" y="120" width="320" height="200" rx="16" fill="url(#screen)" opacity="0.9" />
+  
+  <!-- Play Symbol / Sat Symbol inside screen -->
+  <polygon points="230,170 310,220 230,270" fill="#ffffff" />
+  
+  <!-- TV Stand Base -->
+  <path d="M220 340 L200 400 L312 400 L292 340 Z" fill="#27272a" stroke="url(#gold)" stroke-width="4" />
+  <rect x="170" y="396" width="172" height="16" rx="8" fill="url(#gold)" />
+  
+  <!-- Antenna / Signal Waves -->
+  <path d="M256 100 L216 48" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" />
+  <path d="M256 100 L296 48" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" />
+  <circle cx="216" cy="48" r="8" fill="#fbbf24" />
+  <circle cx="296" cy="48" r="8" fill="#fbbf24" />
+  
+  <!-- Text Label -->
+  <text x="256" y="460" font-family="system-ui, sans-serif" font-weight="900" font-size="34" fill="#fbbf24" text-anchor="middle" letter-spacing="2">CONNECT TV</text>
+</svg>

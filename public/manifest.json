@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "AZ SAT CONNECT - IPTV & Smart TV Portal",
+  "short_name": "CONNECT TV",
+  "description": "Smart TV & Android Box Launcher with CONNECT TV (IPTV), Live Tunisian Radios, Live Match Center, and Quran Kareem.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#09090b",
+  "theme_color": "#059669",
+  "categories": ["entertainment", "video", "multimedia"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

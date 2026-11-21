@@ -1,0 +1,92 @@
+name: Build Android APK (CONNECT TV)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies and build web app
+        run: |
+          npm install --legacy-peer-deps
+          npm run build
+
+      - name: Package Android APK with Capacitor
+        run: |
+          npm install --legacy-peer-deps @capacitor/core @capacitor/cli @capacitor/android
+          rm -rf android capacitor.config.json capacitor.config.ts
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.azsat.connecttv",
+            "appName": "CONNECT TV",
+            "webDir": "dist",
+            "server": {
+              "androidScheme": "https",
+              "cleartext": true
+            }
+          }
+          EOF
+          npx cap add android
+          npx cap sync android
+          # Enable HTTP cleartext traffic for IPTV Xtream & Radio streams
+          python3 -c 'p="android/app/src/main/AndroidManifest.xml"; s=open(p).read(); s=s if "usesCleartextTraffic" in s else s.replace("<application", "<application android:usesCleartextTraffic=\"true\"", 1); open(p,"w").write(s)'
+          # Replace launcher icons safely (remove adaptive XML folder to prevent Gradle duplicate resource errors)
+          if [ -f public/pwa-512x512.png ]; then
+            rm -rf android/app/src/main/res/mipmap-anydpi-v26
+            for density in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+              mkdir -p "android/app/src/main/res/mipmap-$density"
+              cp public/pwa-512x512.png "android/app/src/main/res/mipmap-$density/ic_launcher.png"
+              cp public/pwa-512x512.png "android/app/src/main/res/mipmap-$density/ic_launcher_round.png"
+              cp public/pwa-512x512.png "android/app/src/main/res/mipmap-$density/ic_launcher_foreground.png"
+            done
+          fi
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Prepare app.apk
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk app.apk
+          ls -lh app.apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: connect-tv-apk
+          path: app.apk
+
+      - name: Publish Release with app.apk
+        continue-on-error: true
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.8
+          name: "CONNECT TV v1.8 APK"
+          body: "ملف التثبيت الرسمي لتطبيق CONNECT TV لأجهزة Android TV و Smart Box والهواتف."
+          files: app.apk
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
